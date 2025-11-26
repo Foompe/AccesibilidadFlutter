@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:t4_1_navegacion/models/productos_data.dart';
-import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
-import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
+import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_grid_item.dart';
 
-class Productospage extends StatelessWidget {
-  const Productospage({super.key});
+class Productospage extends StatefulWidget {
+
+  final PedidosViewmodel viewmodel;
+
+  const Productospage({super.key, required this.viewmodel});
+
+  @override
+  State<Productospage> createState() => _ProductospageState();
+}
+
+class _ProductospageState extends State<Productospage> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +31,8 @@ class Productospage extends StatelessWidget {
             width: double.infinity,
             color: Colors.yellow[300],
             padding: const EdgeInsets.all(12),
-            child: const Text(
-                  "Mesa / Nombre: ------",
+            child: Text(
+                  "Mesa / Nombre: ${widget.viewmodel.pedido.nombreMesa}",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),  
@@ -35,17 +43,31 @@ class Productospage extends StatelessWidget {
             child: Container(
               color: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 12),
+
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 2,
-                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
                   childAspectRatio: 1
                 ),
                 itemCount: productosDisponibles.length,
                 itemBuilder: (context, index) {
                   final producto = productosDisponibles[index];
-                  return ProductoGridItem(producto: producto);
+                  final cantidad = widget.viewmodel.productosSeleccionados[producto] ?? 0;
+
+                  return ProductoGridItem(
+                    producto: producto,
+                    cantidad: cantidad,
+                    onAgregar: () {
+                      widget.viewmodel.agregarProducto(producto);
+                      setState(() {});
+                    },
+                    onQuitar: () {
+                      widget.viewmodel.quitarProducto(producto);
+                      setState(() {});
+                    }
+                    );
                 },
               ),
             ),
@@ -66,7 +88,7 @@ class Productospage extends StatelessWidget {
                   onPressed: () {
                     //Todo: implemenar logica de guardar
                     //! vuelve a CreacionPage
-                    Navigator.pop(context);
+                    Navigator.pop(context, widget.viewmodel.pedido);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: const Text(
@@ -86,7 +108,7 @@ class Productospage extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    //! vuelve a CreacionPage
+                    //! vuelve a CreacionPage sin guardar
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),

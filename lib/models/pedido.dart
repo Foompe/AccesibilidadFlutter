@@ -3,13 +3,14 @@ import 'package:t4_1_navegacion/models/Producto.dart';
 class Pedido {
 
   //Atributos
-  final String nombreMesa;
-  final Map<Producto, int> productos = {};
+  String nombreMesa;
+  final Map<Producto, int> productos;
 
   //Constructor
   Pedido({
-    required this.nombreMesa
-  });
+    required this.nombreMesa,
+    Map<Producto, int>? productos,
+  }): productos = productos ?? {};
 
   //Métodos
   //Añadir/sumar

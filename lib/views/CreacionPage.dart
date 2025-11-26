@@ -1,16 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/models/pedido.dart';
+import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
 import 'package:t4_1_navegacion/views/ProductosPage.dart';
-import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 
-class CreacionPage extends StatelessWidget {
-  const CreacionPage({super.key});
+class CreacionPage extends StatefulWidget {
+  final Pedido? pedidoExistente;
+
+  const CreacionPage({super.key, this.pedidoExistente});
+
+  @override
+  State<CreacionPage> createState() => _CreacionPageState();
+}
+
+class _CreacionPageState extends State<CreacionPage> {
+  late PedidosViewmodel viewmodel;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Iniciamos el pedido temporal
+    final pedidoTemp = widget.pedidoExistente != null
+        ? Pedido(
+            nombreMesa: widget.pedidoExistente!.nombreMesa,
+            productos: Map.from(widget.pedidoExistente!.productos),
+          )
+        : Pedido(nombreMesa: "");
+
+    viewmodel = PedidosViewmodel(pedido: pedidoTemp);
+
+    //Cargar el nombre para mostrarlo
+    _controller = TextEditingController(text: pedidoTemp.nombreMesa);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    //! Cambiar
-    final productos = List.generate(15, (i) => "Producto ${i + 1}");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("CreacionPage"),
@@ -38,6 +70,11 @@ class CreacionPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: _controller,
+                        readOnly: widget.pedidoExistente != null, //No editable si ya trae nombre
+                        onChanged: (value) {
+                          viewmodel.pedido.nombreMesa = value;
+                        },
                         decoration: InputDecoration(
                           hintText: "Introduce mesa o Nombre",
                           filled: true,
@@ -46,6 +83,7 @@ class CreacionPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
+                          //! Revisar este widget
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 14,
@@ -60,25 +98,35 @@ class CreacionPage extends StatelessWidget {
                       width: 48,
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
+                        onPressed: () async {
+                          final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Productospage(),
+                              builder: (_) =>
+                                  Productospage(viewmodel: viewmodel),
                             ),
                           );
+
+                          if (result != null) {
+                            setState(() {}); // Recargar UI
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                           padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(8)
+                          )
                         ),
-                        child: const Icon(Icons.add, color: Colors.white),
+                        child: const Center(
+                        child: Icon(
+                          Icons.add,
+                          size: 32,
+                          color: Colors.white,
+                          ),
                       ),
                     ),
-                  ],
+                )],
                 ),
               ],
             ),
@@ -91,11 +139,10 @@ class CreacionPage extends StatelessWidget {
             child: Container(
               color: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: ListView.builder(
-                itemCount: productos.length,
-                itemBuilder: (context, index) {
-                  return ProductoCardWidget();
-                },
+              child: ListView(
+                children: viewmodel.productosSeleccionados.entries.map((e) {
+                  return ProductoCardWidget(producto: e.key, cantidad: e.value);
+                }).toList(),
               ),
             ),
           ),
@@ -108,8 +155,8 @@ class CreacionPage extends StatelessWidget {
             color: Colors.orange[300],
             padding: const EdgeInsets.all(12),
             width: double.infinity,
-            child: const Text(
-              "Total: ---,--€",
+            child: Text(
+              "Total: ${viewmodel.pedido.calcularTotal().toStringAsFixed(2)}€",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.right,
             ),
@@ -129,7 +176,7 @@ class CreacionPage extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     //Todo: implemenar logica de guardar
-                    Navigator.pop(context);
+                    Navigator.pop(context, viewmodel.pedido);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: const Text(
