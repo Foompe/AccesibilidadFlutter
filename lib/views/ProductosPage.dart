@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/models/productos_data.dart';
 import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_grid_item.dart';
@@ -8,9 +9,6 @@ class Productospage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //! Cambiar
-    final productos = List.generate(25, (i) => "Producto ${i + 1}");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("ProductosPage"),
@@ -44,10 +42,10 @@ class Productospage extends StatelessWidget {
                   mainAxisSpacing: 2,
                   childAspectRatio: 1
                 ),
-                itemCount: productos.length,
+                itemCount: productosDisponibles.length,
                 itemBuilder: (context, index) {
-                  //! llamar aqui al componente
-                  return ProductoGridItem();
+                  final producto = productosDisponibles[index];
+                  return ProductoGridItem(producto: producto);
                 },
               ),
             ),
