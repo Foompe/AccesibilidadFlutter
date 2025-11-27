@@ -179,16 +179,15 @@ class _CreacionPageState extends State<CreacionPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
-              //Boton Guardar
+              //Boton cancelar
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    //Todo: implemenar logica de guardar
-                    Navigator.pop(context, viewmodel.pedido);
+                    Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   child: const Text(
-                    "Guardar",
+                    "Cancelar",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -200,15 +199,16 @@ class _CreacionPageState extends State<CreacionPage> {
               //Separador boton
               const SizedBox(width: 12),
 
-              //Boton cancelar
+              //Boton Guardar
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    //Todo: implemenar logica de guardar
+                    Navigator.pop(context, viewmodel.pedido);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: const Text(
-                    "Cancelar",
+                    "Guardar",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

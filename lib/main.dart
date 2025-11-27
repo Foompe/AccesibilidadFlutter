@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/views/CreatePage.dart';
+import 'package:t4_1_navegacion/views/DetallesPage.dart';
 import 'package:t4_1_navegacion/views/HomePage.dart';
 
 void main() {
@@ -10,6 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomePage());
+    return MaterialApp(home: Createpage());
   }
 }

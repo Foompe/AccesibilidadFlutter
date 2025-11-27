@@ -83,15 +83,15 @@ class _ProductospageState extends State<Productospage> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
-              //Boton Guardar
+              //Boton cancelar
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context, widget.viewmodel.pedido);
+                    Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   child: const Text(
-                    "Confirmar",
+                    "Cancelar",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -103,15 +103,15 @@ class _ProductospageState extends State<Productospage> {
               //Separador boton
               const SizedBox(width: 12),
 
-              //Boton cancelar
+              //Boton Guardar
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, widget.viewmodel.pedido);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: const Text(
-                    "Cancelar",
+                    "Confirmar",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
