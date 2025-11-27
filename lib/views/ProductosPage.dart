@@ -87,8 +87,6 @@ class _ProductospageState extends State<Productospage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    //Todo: implemenar logica de guardar
-                    //! vuelve a CreacionPage
                     Navigator.pop(context, widget.viewmodel.pedido);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
@@ -109,7 +107,6 @@ class _ProductospageState extends State<Productospage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    //! vuelve a CreacionPage sin guardar
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
