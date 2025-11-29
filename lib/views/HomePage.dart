@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
-import 'package:t4_1_navegacion/views/CreacionPage.dart';
+import 'package:t4_1_navegacion/views/CreatePage.dart';
 import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,14 +35,20 @@ class _HomePageState extends State<HomePage> {
               final pedido = viewmodel.pedidos[index];
               return PedidoCardWidget(
                 pedido: pedido,
-                onEditar: () async {
+
+                //Configuramos que pasa al pulsar la tarjeta
+                onTap: () async {
                   final actualizado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CreacionPage(pedidoExistente: pedido),
+                      builder: (_) => CreatePage(
+                        pedidoExistente: pedido,
+                        homeviewmodel: viewmodel
+                        ),
                     ),
                   );
                   if (actualizado != null && actualizado is Pedido) {
+                    if(!mounted) return;
                     setState(() {
                       viewmodel.agregarPedido(actualizado);
                     });
@@ -61,13 +67,19 @@ class _HomePageState extends State<HomePage> {
 
           child: ElevatedButton(
             onPressed: () async {
-              // Navegamos a CreacionPage sin pedido (nuevo pedido)
+              // Navegamos a CreatePage sin pedido (nuevo pedido)
               final nuevoPedido = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CreacionPage()),
+                MaterialPageRoute(
+                  builder: (_) => CreatePage(
+                    pedidoExistente:null,
+                    homeviewmodel: viewmodel,
+                    )
+                    ),
               );
 
               if (nuevoPedido != null && nuevoPedido is Pedido) {
+                if(!mounted) return;
                 setState(() {
                   viewmodel.agregarPedido(nuevoPedido);
                 });

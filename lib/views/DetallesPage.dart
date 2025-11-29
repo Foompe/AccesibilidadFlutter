@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/models/pedido.dart';
+import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 
 class DetallesPage extends StatelessWidget {
-  const DetallesPage({super.key});
+  final Pedido pedido;
+
+  const DetallesPage({super.key, required this.pedido});
 
   @override
   Widget build(BuildContext context) {
@@ -9,8 +13,8 @@ class DetallesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.amber,
         centerTitle: true,
-        title: Text(
-          "DetallesPage",
+        title: const Text(
+          "Resumen del pedido",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 2,
@@ -38,10 +42,21 @@ class DetallesPage extends StatelessWidget {
               child: Container(
                 color: Colors.black,
                 width: double.infinity,
-                child: Text(
-                  "cars de productos",
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: ListView.builder(
+                  itemCount: pedido.productos.length,
+                  itemBuilder: (context, index) {
+                    final entry = pedido.productos.entries.elementAt(index);
+                    final producto = entry.key;
+                    final cantidad = entry.value;
+                    return ProductoCardWidget(
+                      producto: producto,
+                      cantidad: cantidad,
+                    );
+                  },
                 ),
               ),
             ),
@@ -52,11 +67,14 @@ class DetallesPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               width: double.infinity,
               child: Text(
-                "Total: ---.--€",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                "Total: ${pedido.calcularTotal().toStringAsFixed(2)}€",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.right,
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -78,7 +96,7 @@ class DetallesPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text(
+            child: const Text(
               "Volver",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
