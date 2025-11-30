@@ -17,49 +17,58 @@ class PedidoCardWidget extends StatelessWidget {
       onTap: onTap,
       child: Card(
         color: Colors.white,
-        elevation: 3,
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        elevation: 2,
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           child: Row(
             children: [
               //Icono
-              const Icon(Icons.person, size: 32, color: Colors.blueGrey),
+              const Icon(Icons.person, size: 36, color: Color(0xFF673AB7)),
 
               //Separador
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
 
               //Nombre
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Text(
                   pedido.nombreMesa,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xFF263238),
                   ),
                 ),
               ),
 
               //Candidad productos
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Text(
                   "${pedido.productos.length} productos",
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
 
               //Precio total
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Text(
                   "${pedido.calcularTotal().toStringAsFixed(2)}€",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF673AB7),
+                  ),
                 ),
               ),
             ],

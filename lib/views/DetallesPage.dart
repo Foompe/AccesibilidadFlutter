@@ -11,11 +11,14 @@ class DetallesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: const Color(0xFF673AB7),
         centerTitle: true,
         title: const Text(
           "Resumen del pedido",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white
+            ),
         ),
         elevation: 2,
       ),
@@ -26,26 +29,27 @@ class DetallesPage extends StatelessWidget {
           children: [
             //Nombre mesa
             Container(
-              color: Colors.grey,
+              color: const Color(0xFFD1C4E9),
               padding: const EdgeInsets.all(12),
               width: double.infinity,
-              height: 50,
+              height: 55,
               alignment: Alignment.center,
               child: Text(
-                "Mesa / nombre: ----",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                "Mesa / nombre: ${pedido.nombreMesa}",
+                style: TextStyle(
+                  fontSize: 20, 
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF4A148C)
+                  ),
               ),
             ),
 
             //Zona lista de productos
             Expanded(
               child: Container(
-                color: Colors.black,
+                color: const Color(0xFFF5F5F5),
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: ListView.builder(
                   itemCount: pedido.productos.length,
                   itemBuilder: (context, index) {
@@ -63,14 +67,15 @@ class DetallesPage extends StatelessWidget {
 
             //Zona precio total
             Container(
-              color: Colors.amber,
+              color: const Color(0xFF9575CD),
               padding: const EdgeInsets.all(16),
               width: double.infinity,
               child: Text(
                 "Total: ${pedido.calcularTotal().toStringAsFixed(2)}€",
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white
                 ),
                 textAlign: TextAlign.right,
               ),
@@ -89,11 +94,11 @@ class DetallesPage extends StatelessWidget {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: const Color(0xFF673AB7),
               foregroundColor: Colors.white,
               minimumSize: const Size.fromHeight(50),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
             child: const Text(

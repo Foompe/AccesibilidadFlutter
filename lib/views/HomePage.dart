@@ -19,15 +19,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF673AB7),
         centerTitle: true,
-        title: Text("Home page"),
-        elevation: 2,
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: Colors.white
+          ),
+          ),
       ),
 
       body: SafeArea(
         child: Container(
-          color: Colors.black,
+          color: Color(0xFFF5F5F5),
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: ListView.builder(
             itemCount: viewmodel.pedidos.length,
@@ -62,7 +68,7 @@ class _HomePageState extends State<HomePage> {
 
       bottomNavigationBar: SafeArea(
         child: Container(
-          color: Colors.red,
+          color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
           child: ElevatedButton(
@@ -86,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: Color(0xFF673AB7),
               foregroundColor: Colors.white,
               minimumSize: const Size.fromHeight(50),
               shape: RoundedRectangleBorder(

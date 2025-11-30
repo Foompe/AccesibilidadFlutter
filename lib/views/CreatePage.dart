@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
@@ -21,6 +23,7 @@ class CreatePage extends StatefulWidget {
 class _CreatePageState extends State<CreatePage> {
   late PedidosViewmodel viewmodel;
   late TextEditingController nombreControl;
+  bool get esEdicion => widget.pedidoExistente != null;
 
   @override
   void initState() {
@@ -29,14 +32,18 @@ class _CreatePageState extends State<CreatePage> {
     //Si recibimos un pedido lo clonamos , si no , creamos uno nuevo
     final pedidoTemp = widget.pedidoExistente != null
         ? Pedido(
-            nombreMesa: widget.pedidoExistente!.nombreMesa,
-            productos: Map.from(widget.pedidoExistente!.productos),
+            nombreMesa: widget.pedidoExistente!.nombreMesa, //Copiamos nombre
+            productos: Map.from(
+              widget.pedidoExistente!.productos,
+            ), //Copiamos productos
           )
         : Pedido(nombreMesa: "");
 
     viewmodel = PedidosViewmodel(
       pedido: pedidoTemp,
     ); //Creamos viewmodel para este pedido
+    viewmodel.homeviewmodel = widget.homeviewmodel;
+    viewmodel.esEdicion = esEdicion;
     nombreControl = TextEditingController(
       text: pedidoTemp.nombreMesa,
     ); //rellenamos el textfield
@@ -52,86 +59,147 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 255, 242),
+        backgroundColor: const Color(0xFF673AB7),
         centerTitle: true,
-        title: Text("Pedido", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Pedido",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
         elevation: 2,
       ),
 
       body: SafeArea(
-        child: Padding(
+        child: Container(
+          color: const Color(0xFFF5F5F5),
           padding: const EdgeInsets.all(16),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 "Mesa / nomrbe: ",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF263238),
+                ),
               ),
               const SizedBox(height: 8),
 
               //TextField
               TextField(
                 controller: nombreControl,
-                enabled: widget.pedidoExistente == null,
+                enabled: !esEdicion,
                 onChanged: (value) {
                   setState(() {
                     viewmodel.pedido.nombreMesa = value;
                   });
                 },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.grey),
+                  ),
                   hintText: "Introduce nombre de la mesa",
+                  errorText: nombreControl.text.isEmpty
+                      ? "Nombre obligatorio"
+                      : (viewmodel.nombreValido()
+                            ? null
+                            : "Nombre ya existente"),
                 ),
               ),
+
               const SizedBox(height: 8),
 
               //Boton "Añadir"
               ElevatedButton(
                 onPressed: () {
-                  if (viewmodel.pedido.nombreMesa.isEmpty) {
+                  if (!viewmodel.nombreValido()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Debes introducir un nombre primero"),
+                        content: Text("Nombre inválido o ya existente"),
                       ),
                     );
                     return;
                   }
+
+                  final pedidoCopia = Pedido(
+                    nombreMesa: viewmodel.pedido.nombreMesa,
+                    productos: Map.from(viewmodel.pedido.productos),
+                  );
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Productospage(viewmodel: viewmodel),
+                      builder: (_) => Productospage(
+                        viewmodel: PedidosViewmodel(pedido: pedidoCopia),
+                      ),
                     ),
                   ).then((resultado) {
-                    if(resultado != null && resultado is Pedido){
-                    setState(() {
-                      viewmodel.pedido = resultado;
-                    });}
+                    if (resultado != null && resultado is Pedido) {
+                      setState(() {
+                        viewmodel.pedido = resultado;
+                      });
+                    }
                   });
                 },
-                child: const Text("Añadir productos"),
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF673AB7),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  minimumSize: const Size.fromHeight(48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  "Añadir productos",
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
+
               const SizedBox(height: 10),
 
               //Boton resumen
               ElevatedButton(
-                onPressed: widget.pedidoExistente != null
-                    ? () {
-                        Navigator.pushNamed(
-                          context,
-                          //!cambiar
-                          "/resumen",
-                          arguments: viewmodel.pedido,
-                        );
-                      }
-                    : () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Debes crear un pedido primero"),
-                          ),
-                        );
-                      },
-                child: const Text("Ver resumen"),
+                onPressed: () {
+                  //Validamos nombre y productos
+                  if (viewmodel.pedido.nombreMesa.isEmpty ||
+                      viewmodel.pedido.productos.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Pedido incompleto")),
+                    );
+                    return;
+                  }
+
+                  //Navegamos a la ruta nombrada
+                  Navigator.pushNamed(
+                    context,
+                    "/resumen",
+                    arguments: viewmodel.pedido,
+                  );
+                },
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF9575CD),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  minimumSize: const Size.fromHeight(48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)
+                  )
+                ),
+                child: const Text(
+                  "Ver resumen",
+                  style: TextStyle(fontSize: 18),
+                  ),
               ),
             ],
           ),
@@ -140,8 +208,9 @@ class _CreatePageState extends State<CreatePage> {
 
       bottomNavigationBar: SafeArea(
         child: Container(
-          color: Colors.grey,
+          color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
           child: Row(
             children: [
               //Boton cancelar
@@ -150,13 +219,16 @@ class _CreatePageState extends State<CreatePage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text(
-                    "Cancelar",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFC62828),
+                    foregroundColor: Colors.white,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)
+                    )
                     ),
+                  child: const Text("Cancelar"
                   ),
                 ),
               ),
@@ -168,6 +240,15 @@ class _CreatePageState extends State<CreatePage> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
+                    if (!viewmodel.nombreValido()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Nombre invalido o repetido"),
+                        ),
+                      );
+                      return;
+                    }
+
                     if (viewmodel.pedido.nombreMesa.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -191,14 +272,17 @@ class _CreatePageState extends State<CreatePage> {
                       viewmodel.pedido,
                     ); // devuelve pedido a HomePage
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  child: const Text(
-                    "Confirmar",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF673AB7),
+                    foregroundColor: Colors.white,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)
+                    )
                     ),
-                  ),
+                  child: const Text("Guardar pedido"),
                 ),
               ),
             ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/productos_data.dart';
 import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
-import 'package:t4_1_navegacion/views/widgets/Producto_grid_item.dart';
+import 'package:t4_1_navegacion/views/widgets/Producto_card_item.dart';
 
 class Productospage extends StatefulWidget {
   final PedidosViewmodel viewmodel;
@@ -17,9 +16,16 @@ class _ProductospageState extends State<Productospage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ProductosPage"),
         centerTitle: true,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color(0xFF673AB7),
+        title: const Text(
+          "Productos",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
       ),
 
       body: SafeArea(
@@ -28,11 +34,15 @@ class _ProductospageState extends State<Productospage> {
             //Campo de texto (mesa - nombre)
             Container(
               width: double.infinity,
-              color: Colors.yellow[300],
+              color: const Color(0xFFD1C4E9),
               padding: const EdgeInsets.all(12),
               child: Text(
                 "Mesa / Nombre: ${widget.viewmodel.pedido.nombreMesa}",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF263238),
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -40,23 +50,17 @@ class _ProductospageState extends State<Productospage> {
             //Lista de producos
             Expanded(
               child: Container(
-                color: Colors.black,
+                color: const Color(0xFFF5F5F5),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
 
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: productosDisponibles.length,
+                child: ListView.builder(
+                  itemCount: widget.viewmodel.listaProductos().length,
                   itemBuilder: (context, index) {
-                    final producto = productosDisponibles[index];
+                    final producto = widget.viewmodel.listaProductos()[index];
                     final cantidad =
                         widget.viewmodel.productosSeleccionados[producto] ?? 0;
 
-                    return ProductoGridItem(
+                    return ProductoCardItem(
                       producto: producto,
                       cantidad: cantidad,
                       onAgregar: () {
@@ -79,8 +83,9 @@ class _ProductospageState extends State<Productospage> {
       //Bottom bar con los botones
       bottomNavigationBar: SafeArea(
         child: Container(
-          color: Colors.grey,
+          color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
           child: Row(
             children: [
               //Boton cancelar
@@ -89,13 +94,20 @@ class _ProductospageState extends State<Productospage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFC62828),
+                    foregroundColor: Colors.white,
+                    elevation: 2,
+                    minimumSize: const Size.fromHeight(48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                   child: const Text(
                     "Cancelar",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                      fontSize: 16,fontWeight: FontWeight.bold
+                      ),
                   ),
                 ),
               ),
@@ -109,13 +121,18 @@ class _ProductospageState extends State<Productospage> {
                   onPressed: () {
                     Navigator.pop(context, widget.viewmodel.pedido);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF673AB7), // 🟣 CAMBIO
+                    foregroundColor: Colors.white,
+                    elevation: 3,
+                    minimumSize: const Size.fromHeight(48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                   child: const Text(
                     "Confirmar",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

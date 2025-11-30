@@ -17,7 +17,8 @@ class Homeviewmodel extends ChangeNotifier{
   }
 
   void agregarPedido(Pedido pedido) {
-    final index = pedidos.indexWhere((p) => p == pedido);
+    final index = pedidos.indexWhere((p) => p.nombreMesa == pedido.nombreMesa);
+    
     if(index >= 0) {
       pedidos[index] = pedido;
     } else {
