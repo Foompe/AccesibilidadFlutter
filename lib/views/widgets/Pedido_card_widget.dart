@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/pedido.dart';
+
 
 class PedidoCardWidget extends StatelessWidget {
   final Pedido pedido;

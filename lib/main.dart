@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/views/DetallesPage.dart';
 import 'package:t4_1_navegacion/views/HomePage.dart';
 
@@ -14,10 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Bar App",
-      initialRoute: "/",
+      initialRoute: HomePage.nombreRuta,
       routes: {
-        "/": (_) => const HomePage(),     //Ruta principal
-        "/resumen": (context) {
+        HomePage.nombreRuta: (_) => const HomePage(),     //Ruta principal
+        DetallesPage.nombreRuta: (context) {
           final pedido = ModalRoute.of(context)!.settings.arguments as Pedido;
           return DetallesPage(pedido: pedido);
         }

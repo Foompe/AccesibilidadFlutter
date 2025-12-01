@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 
 class DetallesPage extends StatelessWidget {
+  static const nombreRuta = "/detalles";
   final Pedido pedido;
 
   const DetallesPage({super.key, required this.pedido});
@@ -27,6 +27,7 @@ class DetallesPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+
             //Nombre mesa
             Container(
               color: const Color(0xFFD1C4E9),

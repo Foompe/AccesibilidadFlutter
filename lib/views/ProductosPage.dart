@@ -85,9 +85,9 @@ class _ProductospageState extends State<Productospage> {
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-
           child: Row(
             children: [
+
               //Boton cancelar
               Expanded(
                 child: ElevatedButton(
@@ -112,7 +112,6 @@ class _ProductospageState extends State<Productospage> {
                 ),
               ),
 
-              //Separador boton
               const SizedBox(width: 12),
 
               //Boton Guardar
@@ -122,7 +121,7 @@ class _ProductospageState extends State<Productospage> {
                     Navigator.pop(context, widget.viewmodel.pedido);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF673AB7), // 🟣 CAMBIO
+                    backgroundColor: const Color(0xFF673AB7),
                     foregroundColor: Colors.white,
                     elevation: 3,
                     minimumSize: const Size.fromHeight(48),

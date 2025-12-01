@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
 import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
+import 'package:t4_1_navegacion/views/DetallesPage.dart';
 import 'package:t4_1_navegacion/views/ProductosPage.dart';
 
 class CreatePage extends StatefulWidget {
@@ -178,9 +178,10 @@ class _CreatePageState extends State<CreatePage> {
                   }
 
                   //Navegamos a la ruta nombrada
+                  //TODO: Corregir (no se pasan modelos)
                   Navigator.pushNamed(
                     context,
-                    "/resumen",
+                    DetallesPage.nombreRuta,
                     arguments: viewmodel.pedido,
                   );
                 },
@@ -191,13 +192,13 @@ class _CreatePageState extends State<CreatePage> {
                   elevation: 3,
                   minimumSize: const Size.fromHeight(48),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)
-                  )
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 child: const Text(
                   "Ver resumen",
                   style: TextStyle(fontSize: 18),
-                  ),
+                ),
               ),
             ],
           ),
@@ -223,11 +224,10 @@ class _CreatePageState extends State<CreatePage> {
                     foregroundColor: Colors.white,
                     elevation: 2,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)
-                    )
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  child: const Text("Cancelar"
                   ),
+                  child: const Text("Cancelar"),
                 ),
               ),
 
@@ -271,15 +271,14 @@ class _CreatePageState extends State<CreatePage> {
                     ); // devuelve pedido a HomePage
                   },
 
-
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF673AB7),
                     foregroundColor: Colors.white,
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)
-                    )
+                      borderRadius: BorderRadius.circular(12),
                     ),
+                  ),
                   child: const Text("Guardar pedido"),
                 ),
               ),
