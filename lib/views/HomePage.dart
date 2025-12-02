@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
 import 'package:t4_1_navegacion/views/CreatePage.dart';
 import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
@@ -27,9 +26,9 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22,
-            color: Colors.white
+            color: Colors.white,
           ),
-          ),
+        ),
       ),
 
       body: SafeArea(
@@ -50,12 +49,12 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (_) => CreatePage(
                         pedidoExistente: pedido,
-                        homeviewmodel: viewmodel
-                        ),
+                        homeviewmodel: viewmodel,
+                      ),
                     ),
                   );
-                  if (actualizado != null && actualizado is Pedido) {
-                    if(!mounted) return;
+                  if (actualizado != null) {
+                    if (!mounted) return;
                     setState(() {
                       viewmodel.agregarPedido(actualizado);
                     });
@@ -79,14 +78,14 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(
                   builder: (_) => CreatePage(
-                    pedidoExistente:null,
+                    pedidoExistente: null,
                     homeviewmodel: viewmodel,
-                    )
-                    ),
+                  ),
+                ),
               );
 
-              if (nuevoPedido != null && nuevoPedido is Pedido) {
-                if(!mounted) return;
+              if (nuevoPedido != null) {
+                if (!mounted) return;
                 setState(() {
                   viewmodel.agregarPedido(nuevoPedido);
                 });
@@ -100,9 +99,13 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text(
-              "Nuevo pedido",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            child: Semantics(
+              label: "boton nuevo pedido",
+              button: true,
+              child: const Text(
+                "Nuevo pedido",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),

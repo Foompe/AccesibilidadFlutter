@@ -4,6 +4,7 @@ import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
 import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
 import 'package:t4_1_navegacion/views/DetallesPage.dart';
 import 'package:t4_1_navegacion/views/ProductosPage.dart';
+import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 
 class CreatePage extends StatefulWidget {
   final Pedido? pedidoExistente;
@@ -111,6 +112,65 @@ class _CreatePageState extends State<CreatePage> {
                       : (viewmodel.nombreValido()
                             ? null
                             : "Nombre ya existente"),
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              Container(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                height: 55,
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  "Borrador resumen",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 87, 87, 87),
+                  ),
+                ),
+              ),
+
+              //Zona lista de productos
+              Expanded(
+                child: Container(
+                  color: const Color(0xFFF5F5F5),
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  child: ListView.builder(
+                    itemCount: viewmodel.pedido.productos.length,
+                    itemBuilder: (context, index) {
+                      final entry = viewmodel.pedido.productos.entries
+                          .elementAt(index);
+                      final producto = entry.key;
+                      final cantidad = entry.value;
+                      return ProductoCardWidget(
+                        producto: producto,
+                        cantidad: cantidad,
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              //Zona precio total
+              Container(
+                color: const Color.fromARGB(255, 66, 66, 66),
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                child: Text(
+                  "Total: ${viewmodel.pedido.calcularTotal().toStringAsFixed(2)}€",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.right,
                 ),
               ),
 
