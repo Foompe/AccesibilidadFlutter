@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
 import 'package:t4_1_navegacion/viewmodels/Pedidos_viewmodel.dart';
 import 'package:t4_1_navegacion/views/DetallesPage.dart';

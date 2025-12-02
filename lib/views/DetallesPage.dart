@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:t4_1_navegacion/models/pedido.dart';
 import 'package:t4_1_navegacion/views/widgets/Producto_card_widget.dart';
 
 class DetallesPage extends StatelessWidget {
