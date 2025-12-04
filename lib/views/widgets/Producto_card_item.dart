@@ -58,22 +58,14 @@ class ProductoCardItem extends StatelessWidget {
                 children: [
                   Text(
                     producto.nombre,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF263238)
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge
                   ),
 
                   const SizedBox(height: 4),
 
                   Text(
                     "${producto.precio}€",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w500
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium
                   )
                 ],
               )
@@ -118,11 +110,7 @@ class ProductoCardItem extends StatelessWidget {
                   //Cantidad
                   Text(
                     "$cantidad",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF263238)
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall
                   ),
 
                   const SizedBox(width: 16),

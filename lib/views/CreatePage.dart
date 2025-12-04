@@ -57,15 +57,16 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   Widget build(BuildContext context) {
+
+      final scale = MediaQuery.of(context).textScaler;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF673AB7),
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           "Pedido",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             color: Colors.white,
           ),
         ),
@@ -80,12 +81,10 @@ class _CreatePageState extends State<CreatePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                "Mesa / nomrbe: ",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF263238),
+            Text(
+                "Mesa / nombre: ",
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            color: Color(0xFF263238),
                 ),
               ),
               const SizedBox(height: 8),
@@ -118,17 +117,15 @@ class _CreatePageState extends State<CreatePage> {
               const SizedBox(height: 8),
 
               Container(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: const Color(0xFFF5F5F5),
                 padding: const EdgeInsets.all(12),
                 width: double.infinity,
                 height: 55,
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   "Borrador resumen",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 87, 87, 87),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            color: Color.fromARGB(255, 87, 87, 87),
                   ),
                 ),
               ),
@@ -158,6 +155,9 @@ class _CreatePageState extends State<CreatePage> {
                 ),
               ),
 
+            
+            //Usar scale para adaptar el layout si el texto es muy grande
+
               //Zona precio total
               Container(
                 color: const Color.fromARGB(255, 66, 66, 66),
@@ -165,11 +165,9 @@ class _CreatePageState extends State<CreatePage> {
                 width: double.infinity,
                 child: Text(
                   "Total: ${viewmodel.pedido.calcularTotal().toStringAsFixed(2)}€",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            color: Colors.white,
+          ),
                   textAlign: TextAlign.right,
                 ),
               ),
@@ -218,9 +216,11 @@ class _CreatePageState extends State<CreatePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "Añadir productos",
-                  style: TextStyle(fontSize: 18),
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,
+            )
                 ),
               ),
 
@@ -256,9 +256,11 @@ class _CreatePageState extends State<CreatePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child:  Text(
                   "Ver resumen",
-                  style: TextStyle(fontSize: 18),
+                  style:Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,
+            ),
                 ),
               ),
             ],
@@ -288,7 +290,10 @@ class _CreatePageState extends State<CreatePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Cancelar"),
+                  child: Text("Cancelar",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,
+            )),
                 ),
               ),
 
@@ -340,7 +345,10 @@ class _CreatePageState extends State<CreatePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text("Guardar pedido"),
+                  child: Text("Guardar",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,
+            )),
                 ),
               ),
             ],

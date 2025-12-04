@@ -18,12 +18,10 @@ class _ProductospageState extends State<Productospage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFF673AB7),
-        title: const Text(
+        title: Text(
           "Productos",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: Colors.white,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          color: Colors.white,
           ),
         ),
       ),
@@ -38,9 +36,7 @@ class _ProductospageState extends State<Productospage> {
               padding: const EdgeInsets.all(12),
               child: Text(
                 "Mesa / Nombre: ${widget.viewmodel.pedido.nombreMesa}",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Color(0xFF263238),
                 ),
                 textAlign: TextAlign.center,
@@ -103,11 +99,10 @@ class _ProductospageState extends State<Productospage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Cancelar",
-                    style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.bold
-                      ),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,)
                   ),
                 ),
               ),
@@ -129,9 +124,10 @@ class _ProductospageState extends State<Productospage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Confirmar",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+          color: Colors.white,)
                   ),
                 ),
               ),

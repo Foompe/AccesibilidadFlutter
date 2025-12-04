@@ -14,12 +14,10 @@ class DetallesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF673AB7),
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "Resumen del pedido",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white
-            ),
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          color: Colors.white,),
         ),
         elevation: 2,
       ),
@@ -38,11 +36,7 @@ class DetallesPage extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 "Mesa / nombre: ${pedido.nombreMesa}",
-                style: TextStyle(
-                  fontSize: 20, 
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A148C)
-                  ),
+                style: Theme.of(context).textTheme.headlineSmall
               ),
             ),
 
@@ -74,10 +68,8 @@ class DetallesPage extends StatelessWidget {
               width: double.infinity,
               child: Text(
                 "Total: ${pedido.calcularTotal().toStringAsFixed(2)}€",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          color: Colors.white,
                 ),
                 textAlign: TextAlign.right,
               ),
@@ -103,10 +95,11 @@ class DetallesPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: const Text(
+            child: Text(
               "Volver",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          color: Colors.white,
+            )),
           ),
         ),
       ),

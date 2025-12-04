@@ -21,11 +21,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Color(0xFF673AB7),
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "Home",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             color: Colors.white,
           ),
         ),
@@ -71,40 +69,44 @@ class _HomePageState extends State<HomePage> {
           color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 
-          child: ElevatedButton(
-            onPressed: () async {
-              // Navegamos a CreatePage sin pedido (nuevo pedido)
-              final nuevoPedido = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => CreatePage(
-                    pedidoExistente: null,
-                    homeviewmodel: viewmodel,
+          child:Semantics(
+                label: "Crear nuevo pedido",
+                button: true,
+                child: Tooltip(
+            message: "Boton crear nuevo pedido",
+            child: ElevatedButton(
+              onPressed: () async {
+                // Navegamos a CreatePage sin pedido (nuevo pedido)
+                final nuevoPedido = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreatePage(
+                      pedidoExistente: null,
+                      homeviewmodel: viewmodel,
+                    ),
                   ),
-                ),
-              );
+                );
 
-              if (nuevoPedido != null) {
-                if (!mounted) return;
-                setState(() {
-                  viewmodel.agregarPedido(nuevoPedido);
-                });
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF673AB7),
-              foregroundColor: Colors.white,
-              minimumSize: const Size.fromHeight(50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                if (nuevoPedido != null) {
+                  if (!mounted) return;
+                  setState(() {
+                    viewmodel.agregarPedido(nuevoPedido);
+                  });
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF673AB7),
+                foregroundColor: Colors.white,
+                minimumSize: const Size.fromHeight(50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-            ),
-            child: Semantics(
-              label: "boton nuevo pedido",
-              button: true,
-              child: const Text(
-                "Nuevo pedido",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              child:  Text(
+                  "Nuevo pedido",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith( 
+                    color: Colors.white)
+                ),
               ),
             ),
           ),
