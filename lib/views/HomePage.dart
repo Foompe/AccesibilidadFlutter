@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:t4_1_navegacion/viewmodels/HomeViewModel.dart';
-import 'package:t4_1_navegacion/views/CreatePage.dart';
+import 'package:t4_1_navegacion/views/createPage.dart';
 import 'package:t4_1_navegacion/views/widgets/Pedido_card_widget.dart';
 
 class HomePage extends StatefulWidget {

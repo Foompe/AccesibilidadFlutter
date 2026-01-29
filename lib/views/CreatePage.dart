@@ -57,9 +57,6 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   Widget build(BuildContext context) {
-
-      final scale = MediaQuery.of(context).textScaler;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF673AB7),
@@ -239,7 +236,6 @@ class _CreatePageState extends State<CreatePage> {
                   }
 
                   //Navegamos a la ruta nombrada
-                  //TODO: Corregir (no se pasan modelos)
                   Navigator.pushNamed(
                     context,
                     DetallesPage.nombreRuta,
